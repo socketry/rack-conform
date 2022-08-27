@@ -10,6 +10,10 @@ module Rack
 				self.public_send(test_method_for(env), env)
 			end
 			
+			def test(env)
+				[200, {}, ["Hello World"]]
+			end
+			
 			def test_status(env)
 				status = env.fetch('HTTP_STATUS', 200)
 				[status.to_i, {}, []]
@@ -17,6 +21,11 @@ module Rack
 			
 			def test_echo(env)
 				[200, {}, env['rack.input']]
+			end
+			
+			def test_headers(env)
+				headers = JSON.parse(env['rack.input'].read)
+				[200, headers, []]
 			end
 			
 			private
