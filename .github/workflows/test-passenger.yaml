@@ -10,7 +10,7 @@ env:
 
 jobs:
   test:
-    name: ${{matrix.ruby}} ${{matrix.gemfile}} ${{matrix.server}} ${{matrix.endpoint}}
+    name: ${{matrix.ruby}} ${{matrix.name}}
     runs-on: ubuntu-latest
     env:
       BUNDLE_GEMFILE: ${{matrix.gemfile}}
@@ -22,6 +22,7 @@ jobs:
       matrix:
         include:
           - ruby: "3.1"
+            name: "Passenger-v6-Rack-v2-http"
             gemfile: "gems/passenger-v6-rack-v2.rb"
             server: "passenger start"
             endpoint: "http://localhost:3000"
@@ -33,9 +34,13 @@ jobs:
         ruby-version: ${{matrix.ruby}}
         bundler-cache: true
     
-    - name: Install dependenies
-      run: sudo apt-get install passenger
+
     
     - name: Run tests
       timeout-minutes: 10
       run: bundle exec bake test
+    
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Ruby-${{matrix.ruby}}-${{matrix.name}} Logs
+        path: "*.log"

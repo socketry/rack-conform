@@ -22,18 +22,22 @@ jobs:
       matrix:
         include:
           - ruby: "3.1"
+            name: "Falcon-v0-Rack-v2-https"
             gemfile: "gems/falcon-v0-rack-v2.rb"
             server: "falcon"
             endpoint: "https://localhost:9292"
           - ruby: "3.1"
+            name: "Falcon-v0-Rack-v3-https"
             gemfile: "gems/falcon-v0-rack-v3.rb"
             server: "falcon"
             endpoint: "https://localhost:9292"
           - ruby: "2.7"
+            name: "Puma-v4-Rack-v2-http"
             gemfile: "gems/puma-v4-rack-v2.rb"
             server: "puma"
             endpoint: "http://localhost:9292"
           - ruby: "3.1"
+            name: "Puma-v5-Rack-v2-http"
             gemfile: "gems/puma-v5-rack-v2.rb"
             server: "puma"
             endpoint: "http://localhost:9292"
@@ -51,5 +55,5 @@ jobs:
     
     - uses: actions/upload-artifact@v3
       with:
-        name: Logs
+        name: Ruby-${{matrix.ruby}}-${{matrix.name}} Logs
         path: "*.log"
