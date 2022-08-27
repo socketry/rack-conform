@@ -20,14 +20,3 @@ it 'can echo back headers' do
 ensure
 	response.finish
 end
-
-it 'can echo back multi-value headers' do
-	response = client.get("/headers", {}, body({'set-cookie' => ['a=1', 'b=2']}))
-	
-	expect(response.status).to be == 200
-	expect(response.headers).to have_keys(
-		'set-cookie' => be == ['a=1', 'b=2']
-	)
-ensure
-	response.finish
-end

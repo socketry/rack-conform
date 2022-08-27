@@ -3,6 +3,8 @@
 # Released under the MIT License.
 # Copyright, 2022, by Samuel Williams.
 
+require 'json'
+
 module Rack
 	module Conform
 		class Server
@@ -21,6 +23,16 @@ module Rack
 			
 			def test_echo(env)
 				[200, {}, env['rack.input']]
+			end
+			
+			def test_cookies(env)
+				cookies = JSON.parse(env['rack.input'].read)
+				
+				Rack::Response.new.tap do |response|
+					cookies.each do |key, value|
+						response.set_cookie(key, value)
+					end	
+				end.to_a
 			end
 			
 			def test_headers(env)
