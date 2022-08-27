@@ -47,6 +47,19 @@ module Rack
 				end.to_a
 			end
 			
+			def test_streaming_hijack(env)
+				if env['rack.hijack?']
+					callback = proc do |stream|
+						stream.write "Hello World"
+						stream.close
+					end
+					
+					return [200, {'rack.hijack' => callback}, nil]
+				else
+					[404, {}, []]
+				end
+			end
+			
 			private
 			
 			def test_method_for(env)

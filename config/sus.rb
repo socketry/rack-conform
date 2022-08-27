@@ -10,10 +10,9 @@ require 'async/http/client'
 
 def before_tests(assertions)
 	if rack_conform_server = ENV['RACK_CONFORM_SERVER']
-		Console.logger.info(self, "Starting server...")
-		@server_pid = wait_for_server_start(rack_conform_server)
+		@server_pid = wait_for_server_start(assertions, rack_conform_server)
 	else
-		Console.logger.info(self, "Could not identify server", env: env)
+		assertions.inform("Could not identify server!")
 	end
 	
 	super
@@ -29,7 +28,7 @@ end
 
 private
 
-def wait_for_server_start(command, timeout: 10)
+def wait_for_server_start(assertions, command, timeout: 10)
 	clock = Sus::Clock.start!
 	log = ::File.open("server.log", "w+")
 	pid = Process.spawn(command, out: log, err: log)
@@ -44,7 +43,7 @@ def wait_for_server_start(command, timeout: 10)
 			sleep 0.001
 			
 			if clock.duration > timeout
-				raise "Server did not start within #{timeout} seconds!"
+				assertions.assert(false, "Server did not start within #{timeout} seconds!")
 			else
 				retry
 			end
@@ -53,18 +52,11 @@ def wait_for_server_start(command, timeout: 10)
 		client.close
 	end
 	
-	Console.logger.info(self, "Server started in #{clock}.")
+	assertions.inform("Server started in #{clock}.")
 	
 	return pid
 rescue => error
-	Console.logger.error(self, "Server failed to start:", error)
 	Process.kill(:INT, pid) if pid
-	
-	if log
-		log.seek(0)
-		Console.logger.error(self, log.read)
-	end
-	
 	raise
 ensure
 	log&.close

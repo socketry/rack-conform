@@ -18,5 +18,5 @@ it 'can echo back headers' do
 		'content-type' => be == 'text/plain'
 	)
 ensure
-	response.finish
+	response&.finish
 end

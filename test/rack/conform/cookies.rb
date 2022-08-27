@@ -18,7 +18,7 @@ it 'can respond with a single cookie' do
 		'set-cookie' => be == ['a=1']
 	)
 ensure
-	response.finish
+	response&.finish
 end
 
 it 'can respond with multiple cookies' do
@@ -29,5 +29,5 @@ it 'can respond with multiple cookies' do
 		'set-cookie' => be == ['a=1', 'b=2']
 	)
 ensure
-	response.finish
+	response&.finish
 end
