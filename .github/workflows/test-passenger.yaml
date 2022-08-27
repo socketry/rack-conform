@@ -1,0 +1,41 @@
+name: Test
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+env:
+  CONSOLE_OUTPUT: XTerm
+
+jobs:
+  test:
+    name: ${{matrix.ruby}} ${{matrix.gemfile}} ${{matrix.server}} ${{matrix.endpoint}}
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_GEMFILE: ${{matrix.gemfile}}
+      RACK_CONFORM_SERVER: ${{matrix.server}}
+      RACK_CONFORM_ENDPOINT: ${{matrix.endpoint}}
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ruby: "3.1"
+            gemfile: "gems/passenger-v6-rack-v2.rb"
+            server: "passenger start"
+            endpoint: "http://localhost:3000"
+    
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{matrix.ruby}}
+        bundler-cache: true
+    
+    - name: Install dependenies
+      run: sudo apt-get install passenger
+    
+    - name: Run tests
+      timeout-minutes: 10
+      run: bundle exec bake test
