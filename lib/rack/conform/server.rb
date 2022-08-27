@@ -25,7 +25,14 @@ module Rack
 			
 			def test_headers(env)
 				headers = JSON.parse(env['rack.input'].read)
-				[200, headers, []]
+				
+				Rack::Response.new.tap do |response|
+					headers.each do |key, value|
+						Array(value).each do |value|
+							response.add_header(key, value)
+						end
+					end
+				end.to_a
 			end
 			
 			private
