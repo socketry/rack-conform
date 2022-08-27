@@ -31,6 +31,11 @@ jobs:
             gemfile: "gems/falcon-v0-rack-v3.rb"
             server: "falcon"
             endpoint: "https://localhost:9292"
+          - ruby: "3.1"
+            name: "Falcon-v0-Rack-v3-http"
+            gemfile: "gems/falcon-v0-rack-v3.rb"
+            server: "falcon --bind http://localhost:9292"
+            endpoint: "http://localhost:9292"
           - ruby: "2.7"
             name: "Puma-v4-Rack-v2-http"
             gemfile: "gems/puma-v4-rack-v2.rb"
@@ -52,6 +57,12 @@ jobs:
     - name: Run tests
       timeout-minutes: 10
       run: bundle exec bake test
+    
+    - name: Run benchmarks
+      run: |
+        bundle exec ${{matrix.server}} &
+        sleep 1
+        bundle exec benchmark-http latency ${{matrix.endpoint}}
     
     - uses: actions/upload-artifact@v3
       with:

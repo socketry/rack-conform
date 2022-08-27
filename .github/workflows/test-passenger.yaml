@@ -34,13 +34,20 @@ jobs:
         ruby-version: ${{matrix.ruby}}
         bundler-cache: true
     
-
+    - name: Install dependenies
+      run: sudo apt-get install passenger
     
     - name: Run tests
       timeout-minutes: 10
       run: bundle exec bake test
     
+    - name: Run benchmarks
+      run: |
+        bundle exec ${{matrix.server}} &
+        sleep 1
+        bundle exec benchmark-http latency ${{matrix.endpoint}}
+    
     - uses: actions/upload-artifact@v3
       with:
-        name: Ruby-${{matrix.ruby}}-${{matrix.name}} Logs
+        name: R${{matrix.ruby}}-${{matrix.name}}
         path: "*.log"

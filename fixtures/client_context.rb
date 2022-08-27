@@ -10,8 +10,12 @@ require 'sus/fixtures/async/reactor_context'
 module ClientContext
 	include Sus::Fixtures::Async::ReactorContext
 	
+	def url
+		ENV['RACK_CONFORM_ENDPOINT']
+	end
+	
 	def endpoint
-		@endpoint ||= Async::HTTP::Endpoint.parse(ENV['RACK_CONFORM_ENDPOINT'])
+		@endpoint ||= Async::HTTP::Endpoint.parse(url)
 	end
 	
 	def client
