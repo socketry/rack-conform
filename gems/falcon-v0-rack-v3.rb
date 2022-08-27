@@ -3,9 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2022, by Samuel Williams.
 
-eval_gemfile '../'
+eval_gemfile '../gems.rb'
 
 gem "falcon", "~> 0.0"
-
-ENV['RACK_CONFORM_SERVER'] ||= "falcon serve"
-ENV['RACK_CONFORM_ENDPOINT'] ||= "https://localhost:9292"
+gem "rack", "~> 3.0.0.beta1"

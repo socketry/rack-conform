@@ -3,9 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2022, by Samuel Williams.
 
-eval_gemfile '../
+eval_gemfile '../gems.rb'
 
 gem "puma", "~> 4.0"
-
-ENV['RACK_CONFORM_SERVER'] ||= "puma"
-ENV['RACK_CONFORM_ENDPOINT'] ||= "http://localhost:9292"
+gem "rack", "~> 2.0"

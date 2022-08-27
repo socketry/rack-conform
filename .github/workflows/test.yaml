@@ -10,39 +10,33 @@ env:
 
 jobs:
   test:
-    name: ${{matrix.ruby}} on ${{matrix.os}} ${{matrix.gemfile}}
-    runs-on: ${{matrix.os}}-latest
-    continue-on-error: ${{matrix.experimental}}
+    name: ${{matrix.ruby}} ${{matrix.gemfile}} ${{matrix.server}} ${{matrix.endpoint}}
+    runs-on: ubuntu-latest
     env:
-      BUNDLER_GEMFILE: ${{matrix.gemfile}}
+      BUNDLE_GEMFILE: ${{matrix.gemfile}}
+      RACK_CONFORM_SERVER: ${{matrix.server}}
+      RACK_CONFORM_ENDPOINT: ${{matrix.endpoint}}
     
     strategy:
+      fail-fast: false
       matrix:
-        os:
-          - ubuntu
-        
-        ruby:
-          - "2.7"
-          - "3.0"
-          - "3.1"
-        
-        gemfile:
-          - gems/puma-v4.rb
-          - gems/puma-v5.rb
-          - gems/falcon-v0.rb
-        
-        experimental: [false]
-        
         include:
-          - os: ubuntu
-            ruby: truffleruby
-            experimental: true
-          - os: ubuntu
-            ruby: jruby
-            experimental: true
-          - os: ubuntu
-            ruby: head
-            experimental: true
+          - ruby: "3.1"
+            gemfile: "gems/falcon-v0-rack-v2.rb"
+            server: "falcon"
+            endpoint: "https://localhost:9292"
+          - ruby: "3.1"
+            gemfile: "gems/falcon-v0-rack-v3.rb"
+            server: "falcon"
+            endpoint: "https://localhost:9292"
+          - ruby: "2.7"
+            gemfile: "gems/puma-v4-rack-v2.rb"
+            server: "puma"
+            endpoint: "http://localhost:9292"
+          - ruby: "3.1"
+            gemfile: "gems/puma-v5-rack-v2.rb"
+            server: "puma"
+            endpoint: "http://localhost:9292"
     
     steps:
     - uses: actions/checkout@v3

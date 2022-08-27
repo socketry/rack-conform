@@ -10,14 +10,22 @@ module Rack
 				self.public_send(test_method_for(env), env)
 			end
 			
-			def echo(env)
+			def test_status(env)
+				status = env.fetch('HTTP_STATUS', 200)
+				[status.to_i, {}, []]
+			end
+			
+			def test_echo(env)
 				[200, {}, env['rack.input']]
 			end
 			
 			private
 			
 			def test_method_for(env)
-				env['PATH_INFO'].split('/')[1..].join('_').to_sym
+				parts = env['PATH_INFO'].split('/')
+				parts[0] = "test"
+				
+				return parts.join('_').to_sym
 			end
 		end
 	end
