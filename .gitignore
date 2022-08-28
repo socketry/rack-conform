@@ -5,3 +5,4 @@
 /external
 
 /server.log
+/gems/*.lock

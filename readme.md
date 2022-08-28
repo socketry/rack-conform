@@ -17,7 +17,8 @@ Rack has pretty decent support for validating applications do the right thing us
 This repository includes test suite execution for published versions of major web servers. You can also run it for a specific server:
 
 ```bash
-$ puma & # start your server
+$ export BUNDLE_GEMFILE=gems/falcon-v0-rack-v3.rb
+$ export RACK_CONFORM_SERVER="falcon --bind http://localhost:9292"
 $ export RACK_CONFORM_ENDPOINT="http://localhost:9292"
 $ bundle exec sus # run tests
 ```
