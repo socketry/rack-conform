@@ -3,83 +3,83 @@
 # Released under the MIT License.
 # Copyright, 2022, by Samuel Williams.
 
-require 'json'
+require 'console'
+require 'async'
+require 'async/http/endpoint'
+require 'async/http/client'
 
 module Rack
 	module Conform
 		class Server
-			def call(env)
-				self.public_send(test_method_for(env), env)
-			end
-			
-			def test(env)
-				[200, {}, ["Hello World"]]
-			end
-			
-			def test_status(env)
-				status = env.fetch('HTTP_STATUS', 200)
-				[status.to_i, {}, []]
-			end
-			
-			def test_echo(env)
-				[200, {}, env['rack.input']]
-			end
-			
-			def test_cookies(env)
-				cookies = JSON.parse(env['rack.input'].read)
+			def self.current
+				command = ENV['RACK_CONFORM_SERVER']
+				endpoint = ENV['RACK_CONFORM_ENDPOINT']
 				
-				Rack::Response.new.tap do |response|
-					cookies.each do |key, value|
-						response.set_cookie(key, value)
-					end	
-				end.to_a
-			end
-			
-			def test_headers(env)
-				headers = JSON.parse(env['rack.input'].read)
-				
-				Rack::Response.new.tap do |response|
-					headers.each do |key, value|
-						Array(value).each do |value|
-							response.add_header(key, value)
-						end
-					end
-				end.to_a
-			end
-			
-			def test_streaming_hijack(env)
-				if env['rack.hijack?']
-					callback = proc do |stream|
-						stream.write "Hello World"
-						stream.close
-					end
-					
-					return [200, {'rack.hijack' => callback}, nil]
-				else
-					[404, {}, []]
+				if command and endpoint
+					return self.new(command, endpoint)
 				end
 			end
 			
-			def test_streaming_body(env)
-				if Rack::RELEASE >= "3.0"
-					callback = proc do |stream|
-						stream.write "Hello World"
-						stream.close
-					end
-					
-					return [200, {}, callback]
-				else
-					[404, {}, []]
+			def initialize(command, endpoint)
+				@command = command
+				@endpoint = endpoint
+				
+				@pid = nil
+			end
+			
+			def print(output)
+				output.write "server ", :variable, @command.inspect, " ", @endpoint, :reset
+			end
+			
+			def start(assertions)
+				raise "Already started!" if @pid
+				
+				assertions.nested(self, isolated: true, measure: true) do |assertions|
+					assertions.inform("Starting server...")
+					@pid = self.startup(assertions)
+				end
+			end
+			
+			def close
+				if @pid
+					Process.kill(:INT, @pid)
 				end
 			end
 			
 			private
 			
-			def test_method_for(env)
-				parts = env['PATH_INFO'].split('/')
-				parts[0] = "test"
+			def startup(assertions, timeout: 10)
+				clock = Sus::Clock.start!
+				log = ::File.open("server.log", "w+")
+				pid = Process.spawn(@command, out: log, err: log)
 				
-				return parts.join('_').to_sym
+				Async do
+					endpoint = Async::HTTP::Endpoint.parse(ENV['RACK_CONFORM_ENDPOINT'])
+					client = Async::HTTP::Client.new(endpoint)
+					
+					begin
+						client.get("/status").finish
+					rescue Errno::ECONNREFUSED
+						sleep 0.001
+						
+						if clock.duration > timeout
+							assertions.assert(false, "Server did not start within #{timeout} seconds!")
+						else
+							retry
+						end
+					end
+					
+					client.close
+				end
+				
+				assertions.inform("Server started in #{clock}.")
+				
+				return pid
+			rescue => error
+				Process.kill(:INT, pid) if pid
+				raise
+			ensure
+				log&.close
 			end
 		end
 	end

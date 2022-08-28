@@ -6,7 +6,9 @@
 require 'client_context'
 include ClientContext
 
-if Rack::RESPONSE > "3.0"
+require 'rack'
+
+if Rack::RELEASE > "3.0"
 	it 'can stream a response' do
 		response = client.get("/streaming/body")
 		

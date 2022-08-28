@@ -15,4 +15,7 @@ end
 group :test do
 	gem "bake-test"
 	gem "bake-test-external"
+	
+	# For local testing...
+	gem "falcon"
 end
