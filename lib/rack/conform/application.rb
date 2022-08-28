@@ -32,7 +32,7 @@ module Rack
 					cookies.each do |key, value|
 						response.set_cookie(key, value)
 					end	
-				end.to_a
+				end.finish
 			end
 			
 			def test_headers(env)
@@ -44,7 +44,7 @@ module Rack
 							response.add_header(key, value)
 						end
 					end
-				end.to_a
+				end.finish
 			end
 			
 			def test_streaming_hijack(env)
