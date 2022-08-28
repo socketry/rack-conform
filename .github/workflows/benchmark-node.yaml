@@ -1,0 +1,36 @@
+name: Test
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{matrix.ruby}} ${{matrix.name}}
+    runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ruby: "3.1"
+            name: "Node-http"
+            server: "node examples/node/server.js"
+            endpoint: "http://localhost:3000"
+    
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{matrix.ruby}}
+        bundler-cache: true
+    - uses: actions/setup-node@v3
+      with:
+        node-version: "16"
+    
+    - name: Run benchmarks
+      run: |
+        ${{matrix.server}} &
+        sleep 1
+        bundle exec benchmark-http latency ${{matrix.endpoint}}
