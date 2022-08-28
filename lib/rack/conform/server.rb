@@ -60,6 +60,19 @@ module Rack
 				end
 			end
 			
+			def test_streaming_body(env)
+				if Rack::RELEASE >= "3.0"
+					callback = proc do |stream|
+						stream.write "Hello World"
+						stream.close
+					end
+					
+					return [200, {}, callback]
+				else
+					[404, {}, []]
+				end
+			end
+			
 			private
 			
 			def test_method_for(env)

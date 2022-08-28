@@ -6,14 +6,13 @@
 require 'client_context'
 include ClientContext
 
-it 'can stream a response' do
-	response = client.get("/streaming/hijack")
-	
-	if response.status == 200
+if Rack::RESPONSE > "3.0"
+	it 'can stream a response' do
+		response = client.get("/streaming/body")
+		
+		expect(response.status).to be == 200
 		expect(response.read).to be == "Hello World"
-	else
-		inform("Streaming hijack not supported!")
+	ensure
+		response&.finish
 	end
-ensure
-	response&.finish
 end
