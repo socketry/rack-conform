@@ -44,7 +44,7 @@ jobs:
     - name: Run benchmarks
       run: |
         bundle exec ${{matrix.server}} &
-        sleep 1
+        bundle exec benchmark-http wait ${{matrix.endpoint}}
         bundle exec benchmark-http latency ${{matrix.endpoint}}
     
     - uses: actions/upload-artifact@v3
