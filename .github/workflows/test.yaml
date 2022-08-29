@@ -51,6 +51,11 @@ jobs:
             gemfile: "gems/thin-v1-rack-v2.rb"
             server: "thin start"
             endpoint: "http://localhost:3000"
+          - ruby: "3.1"
+            name: "Unicorn-v6-Rack-v2-http"
+            gemfile: "gems/unicorn-v6-rack-v2.rb"
+            server: "unicorn"
+            endpoint: "http://localhost:8080"
     
     steps:
     - uses: actions/checkout@v3

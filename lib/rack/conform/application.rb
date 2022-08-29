@@ -21,8 +21,18 @@ module Rack
 				[status.to_i, {}, []]
 			end
 			
+			class EchoWrapper
+				def initialize(input)
+					@input = input
+				end
+				
+				def each(&block)
+					@input.each(&block)
+				end
+			end
+			
 			def test_echo(env)
-				[200, {}, env['rack.input']]
+				[200, {}, EchoWrapper.new(env['rack.input'])]
 			end
 			
 			def test_cookies(env)
