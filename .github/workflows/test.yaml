@@ -54,7 +54,7 @@ jobs:
           - ruby: "3.1"
             name: "Unicorn-v6-Rack-v2-http"
             gemfile: "gems/unicorn-v6-rack-v2.rb"
-            server: "unicorn"
+            server: "unicorn -E none"
             endpoint: "http://localhost:8080"
     
     steps:

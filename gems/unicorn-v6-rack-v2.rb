@@ -8,5 +8,5 @@ eval_gemfile '../gems.rb'
 gem "unicorn", "~> 6.0"
 gem "rack", "~> 2.0"
 
-# export RACK_CONFORM_SERVER="unicorn"
+# export RACK_CONFORM_SERVER="unicorn -E none"
 # export RACK_CONFORM_ENDPOINT="http://localhost:8080"
