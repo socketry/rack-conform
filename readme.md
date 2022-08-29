@@ -12,13 +12,22 @@ Rack has pretty decent support for validating applications do the right thing us
 
   - Supports Rack 2 and Rack 3.
 
+### Servers Tested
+
+- Falcon (Rack 2 & 3)
+- Puma (Rack 2)
+- Passenger (Rack 2)
+- Unicorn (Rack 2)
+- Thin (Rack 2)
+
 ## Usage
 
 This repository includes test suite execution for published versions of major web servers. You can also run it for a specific server:
 
 ```bash
-$ export BUNDLE_GEMFILE=gems/falcon-v0-rack-v3.rb
-$ export RACK_CONFORM_SERVER="falcon --bind http://localhost:9292"
-$ export RACK_CONFORM_ENDPOINT="http://localhost:9292"
-$ bundle exec sus # run tests
+export BUNDLE_GEMFILE=gems/falcon-v0-rack-v3.rb
+bundle install
+export RACK_CONFORM_SERVER="falcon --bind http://localhost:9292"
+export RACK_CONFORM_ENDPOINT="http://localhost:9292"
+bundle exec sus # run tests
 ```
