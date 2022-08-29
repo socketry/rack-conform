@@ -46,6 +46,11 @@ jobs:
             gemfile: "gems/puma-v5-rack-v2.rb"
             server: "puma"
             endpoint: "http://localhost:9292"
+          - ruby: "3.1"
+            name: "Thin-v1-Rack-v2-http"
+            gemfile: "gems/thin-v1-rack-v2.rb"
+            server: "thin start"
+            endpoint: "http://localhost:3000"
     
     steps:
     - uses: actions/checkout@v3
