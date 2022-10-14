@@ -1,6 +1,14 @@
 name: Test
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron:  '0 20 * * *'
 
 permissions:
   contents: read
@@ -84,7 +92,9 @@ jobs:
       run: bundle exec bake test
     
     - name: Run benchmarks
+      timeout-minutes: 10
       run: |
+        sleep 60
         bundle exec ${{matrix.server}} &
         bundle exec benchmark-http wait ${{matrix.endpoint}}
         bundle exec benchmark-http latency ${{matrix.endpoint}}
