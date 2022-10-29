@@ -11,20 +11,25 @@ require 'async/http/client'
 module Rack
 	module Conform
 		class Server
-			def self.current
+			def self.current(**options)
 				command = ENV['RACK_CONFORM_SERVER']
 				endpoint = ENV['RACK_CONFORM_ENDPOINT']
 				
 				if command and endpoint
-					return self.new(command, endpoint)
+					return self.new(command, endpoint, **options)
 				end
 			end
 			
-			def initialize(command, endpoint)
+			def initialize(command, endpoint, log: nil)
 				@command = command
 				@endpoint = endpoint
+				@log = log
 				
 				@pid = nil
+			end
+			
+			def log
+				@log ||= ::File.open("server.log", "w+")
 			end
 			
 			def print(output)
@@ -40,6 +45,12 @@ module Rack
 				end
 			end
 			
+			def wait
+				if @pid
+					Process.wait(@pid)
+				end
+			end
+			
 			def close
 				if @pid
 					Process.kill(:INT, @pid)
@@ -50,7 +61,7 @@ module Rack
 			
 			def startup(assertions, timeout: 10)
 				clock = Sus::Clock.start!
-				log = ::File.open("server.log", "w+")
+				log = self.log
 				pid = Process.spawn(@command, out: log, err: log)
 				
 				Async do
@@ -78,8 +89,6 @@ module Rack
 			rescue => error
 				Process.kill(:INT, pid) if pid
 				raise
-			ensure
-				log&.close
 			end
 		end
 	end
