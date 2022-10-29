@@ -2,7 +2,7 @@
 
 Provides rack server conformance testing.
 
-[![Development Status](https://github.com/socketry/protocol-http/workflows/Test/badge.svg)](https://github.com/socketry/protocol-http/actions?workflow=Test)
+[![Development Status](https://github.com/socketry/rack-conform/workflows/Test/badge.svg)](https://github.com/socketry/rack-conform/actions?workflow=Test)
 
 ## Motivation
 
@@ -14,20 +14,32 @@ Rack has pretty decent support for validating applications do the right thing us
 
 ### Servers Tested
 
-- Falcon (Rack 2 & 3)
-- Puma (Rack 2)
-- Passenger (Rack 2)
-- Unicorn (Rack 2)
-- Thin (Rack 2)
+  - Falcon (Rack 2 & 3)
+  - Puma (Rack 2)
+  - Passenger (Rack 2)
+  - Unicorn (Rack 2)
+  - Thin (Rack 2)
 
 ## Usage
 
 This repository includes test suite execution for published versions of major web servers. You can also run it for a specific server:
 
-```bash
+``` bash
 export BUNDLE_GEMFILE=gems/falcon-v0-rack-v3.rb
 bundle install
 export RACK_CONFORM_SERVER="falcon --bind http://localhost:9292"
 export RACK_CONFORM_ENDPOINT="http://localhost:9292"
 bundle exec sus # run tests
+```
+
+### Starting A Server
+
+You can also start a server running the conform application for independent testing (e.g. using `curl`).
+
+``` bash
+export BUNDLE_GEMFILE=gems/falcon-v0-rack-v3.rb
+bundle install
+export RACK_CONFORM_SERVER="falcon --bind http://localhost:9292"
+export RACK_CONFORM_ENDPOINT="http://localhost:9292"
+bundle exec bake rack:conform:server
 ```
