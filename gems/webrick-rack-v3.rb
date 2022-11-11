@@ -5,7 +5,8 @@
 
 eval_gemfile '../gems.rb'
 
-gem "rack", "~> 3.0"
+# gem "rack", "~> 3.0"
+gem "rack", git: "https://github.com/rack/rack", branch: "rack-lint-respond_to"
 gem "webrick"
 gem "rackup"
 
