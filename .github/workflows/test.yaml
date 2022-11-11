@@ -30,6 +30,16 @@ jobs:
       matrix:
         include:
           - ruby: "3.1"
+            name: "Webrick-Rack-v2-http"
+            gemfile: "gems/webrick-rack-v2.rb"
+            server: "rackup -s webrick"
+            endpoint: "http://localhost:9292"
+          - ruby: "3.1"
+            name: "Webrick-Rack-v3-http"
+            gemfile: "gems/webrick-rack-v3.rb"
+            server: "rackup -s webrick"
+            endpoint: "http://localhost:9292"
+          - ruby: "3.1"
             name: "Falcon-v0-Rack-v2-https"
             gemfile: "gems/falcon-v0-rack-v2.rb"
             server: "falcon"
