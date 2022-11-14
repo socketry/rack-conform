@@ -4,6 +4,7 @@
 # Copyright, 2022, by Samuel Williams.
 
 require 'json'
+require 'async/websocket/adapters/rack'
 
 require 'rack/response'
 
@@ -83,6 +84,15 @@ module Rack
 				else
 					[404, {}, []]
 				end
+			end
+			
+			def test_websocket_echo(env)
+				Async::WebSocket::Adapters::Rack.open(env) do |connection|
+					while message = connection.read
+						connection.write(message)
+					end
+					connection.close
+				end or Protocol::HTTP::Response[404, {}, []]
 			end
 			
 			private
