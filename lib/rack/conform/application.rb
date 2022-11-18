@@ -5,6 +5,8 @@
 
 require 'json'
 
+require 'rack/response'
+
 module Rack
 	module Conform
 		class Application
