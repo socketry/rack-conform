@@ -8,4 +8,3 @@ eval_gemfile '../gems.rb'
 gem "rack", "~> 3.0.1"
 gem "webrick"
 gem "rackup"
-
