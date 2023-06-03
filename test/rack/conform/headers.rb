@@ -20,3 +20,11 @@ it 'can echo back headers' do
 ensure
 	response&.finish
 end
+
+it 'rejects invalid non-string headers' do
+	response = client.get("/headers", {}, body({'foo-count' => 123}))
+	
+	expect(response.status).to be == 500
+ensure
+	response&.finish
+end
