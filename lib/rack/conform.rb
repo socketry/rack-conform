@@ -5,3 +5,5 @@
 
 require_relative 'conform/version'
 require_relative 'conform/application'
+
+require_relative 'conform/chunked'
