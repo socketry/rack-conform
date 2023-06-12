@@ -18,3 +18,17 @@ if Rack::RELEASE > "3.0"
 		response&.finish
 	end
 end
+
+it 'can stream a chunked response' do
+	body = Protocol::HTTP::Body::Buffered.new([
+		"Hello ",
+		"World!"
+	])
+	
+	response = client.post("/chunked/body", {}, body)
+	
+	expect(response.status).to be == 200
+	expect(response.read).to be == "Hello World!"
+ensure
+	response&.finish
+end
