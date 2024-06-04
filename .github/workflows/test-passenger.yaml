@@ -21,7 +21,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - ruby: "3.1"
+          - ruby: "3.3"
             name: "Passenger-v6-Rack-v2-http"
             gemfile: "gems/passenger-v6-rack-v2.rb"
             server: "passenger start"
