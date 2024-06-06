@@ -15,6 +15,7 @@ it 'can respond with a single cookie' do
 	
 	expect(response.status).to be == 200
 	expect(response.headers).to have_keys(
+		'x-http-cookie' => be == ['a=1'],
 		'set-cookie' => be == ['a=1']
 	)
 ensure
@@ -26,6 +27,7 @@ it 'can respond with multiple combined cookies' do
 	
 	expect(response.status).to be == 200
 	expect(response.headers).to have_keys(
+		'x-http-cookie' => be == ['a=1;b=2'],
 		'set-cookie' => be == ["a=1", "b=2"]
 	)
 ensure
@@ -37,6 +39,7 @@ it 'can respond with multiple cookie headers' do
 	
 	expect(response.status).to be == 200
 	expect(response.headers).to have_keys(
+		'x-http-cookie' => be == ['a=1;b=2'],
 		'set-cookie' => be == ['a=1', 'b=2']
 	)
 ensure

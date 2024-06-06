@@ -45,6 +45,10 @@ module Rack
 				cookies = request.cookies
 				
 				Rack::Response.new.tap do |response|
+					# Hex encode non-printable characters:
+					value = env['HTTP_COOKIE'].gsub(/[^[:print:]]/, &:ord)
+					response.add_header('x-http-cookie', value)
+					
 					cookies.each do |key, value|
 						response.set_cookie(key, value)
 					end	
