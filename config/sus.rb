@@ -17,7 +17,3 @@ def after_tests(assertions)
 	
 	@server&.close
 end
-
-private
-
-
