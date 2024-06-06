@@ -41,7 +41,8 @@ module Rack
 			end
 			
 			def test_cookies(env)
-				cookies = JSON.parse(env['rack.input'].read)
+				request = Rack::Request.new(env)
+				cookies = request.cookies
 				
 				Rack::Response.new.tap do |response|
 					cookies.each do |key, value|
