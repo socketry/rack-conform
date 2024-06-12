@@ -86,6 +86,16 @@ module Rack
 				end
 			end
 			
+			def test_streaming_enumerator(env)
+				body = Enumerator.new do |yielder|
+					10.times do |i|
+						yielder.yield "Hello World #{i}\n"
+					end
+				end
+				
+				[200, {}, body]
+			end
+			
 			def test_websocket_echo(env)
 				Async::WebSocket::Adapters::Rack.open(env) do |connection|
 					while message = connection.read
