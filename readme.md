@@ -19,6 +19,7 @@ Rack has pretty decent support for validating applications do the right thing us
   - Passenger (Rack 2)
   - Unicorn (Rack 2)
   - Thin (Rack 2)
+  - Pitchfork (Rack 2 & 3)
 
 ## Usage
 
