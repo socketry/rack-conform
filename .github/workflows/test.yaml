@@ -54,7 +54,7 @@ jobs:
             gemfile: "gems/falcon-v0-rack-v3.rb"
             server: "falcon --bind http://localhost:9292"
             endpoint: "http://localhost:9292"
-          - ruby: "2.7"
+          - ruby: "3.3"
             name: "Puma-v4-Rack-v2-http"
             gemfile: "gems/puma-v4-rack-v2.rb"
             server: "puma"
