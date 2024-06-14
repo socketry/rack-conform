@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
 	spec.version = Rack::Conform::VERSION
 	
 	spec.summary = "An implementation of the Rack protocol/specification."
-	spec.authors = ["Samuel Williams"]
+	spec.authors = ["Samuel Williams", "Gregory Longtin"]
 	spec.license = "MIT"
 	
 	spec.cert_chain  = ['release.cert']
@@ -15,9 +15,13 @@ Gem::Specification.new do |spec|
 	
 	spec.homepage = "https://github.com/socketry/rack-conform"
 	
+	spec.metadata = {
+		"source_code_uri" => "https://github.com/socketry/rack-conform.git",
+	}
+	
 	spec.files = Dir.glob(['{lib}/**/*', '*.md'], File::FNM_DOTMATCH, base: __dir__)
 	
-	spec.required_ruby_version = ">= 2.5"
+	spec.required_ruby_version = ">= 3.1"
 	
 	spec.add_dependency "async-http", "~> 0.50"
 	spec.add_dependency "async-websocket"
