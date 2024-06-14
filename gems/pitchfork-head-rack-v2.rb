@@ -5,7 +5,7 @@
 
 eval_gemfile '../gems.rb'
 
-gem "pitchfork", "~> 0.14"
+gem "pitchfork", git: "https://github.com/Shopify/pitchfork.git"
 gem "rack", "~> 2.0"
 
 # export RACK_CONFORM_SERVER="pitchfork -E none"
