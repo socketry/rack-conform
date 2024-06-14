@@ -8,6 +8,8 @@ require 'async/websocket/adapters/rack'
 
 require 'rack/response'
 
+require_relative 'middleware/body_itself'
+
 module Rack
 	module Conform
 		class Application
@@ -103,6 +105,10 @@ module Rack
 					end
 					connection.close
 				end or Protocol::HTTP::Response[404, {}, []]
+			end
+
+			def test_middleware_body_itself(env)
+				Middleware::BodyItself.new(self).call(env)
 			end
 			
 			private
