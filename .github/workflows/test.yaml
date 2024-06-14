@@ -94,6 +94,11 @@ jobs:
             gemfile: "gems/unicorn-v6-rack-v2.rb"
             server: "unicorn -E none"
             endpoint: "http://localhost:8080"
+          - ruby: "3.3"
+            name: "Pitchfork-head-Rack-v2-http"
+            gemfile: "gems/pitchfork-head-rack-v2.rb"
+            server: "pitchfork -E none"
+            endpoint: "http://localhost:8080"
     
     steps:
     - uses: actions/checkout@v3
