@@ -16,3 +16,5 @@ group :test do
 	gem "bake-test"
 	gem "bake-test-external"
 end
+
+gem "protocol-rack", git: "https://github.com/socketry/protocol-rack.git"
