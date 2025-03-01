@@ -21,7 +21,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - ruby: "3.3"
+          - ruby: "3.4"
             name: "Passenger-v6-Rack-v2-http"
             gemfile: "gems/passenger-v6-rack-v2.rb"
             server: "passenger start"
@@ -47,7 +47,7 @@ jobs:
         bundle exec benchmark-http wait ${{matrix.endpoint}}
         bundle exec benchmark-http latency ${{matrix.endpoint}}
     
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: R${{matrix.ruby}}-${{matrix.name}}
         path: "*.log"

@@ -7,3 +7,6 @@ eval_gemfile '../gems.rb'
 
 gem "passenger", "~> 6.0"
 gem "rack", "~> 2.0"
+
+gem "base64"
+gem "logger"
