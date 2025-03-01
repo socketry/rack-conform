@@ -123,7 +123,7 @@ jobs:
         bundle exec benchmark-http wait ${{matrix.endpoint}}
         bundle exec benchmark-http latency ${{matrix.endpoint}}
     
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: Ruby-${{matrix.ruby}}-${{matrix.name}} Logs
         path: "*.log"
