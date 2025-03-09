@@ -50,7 +50,7 @@ module Rack
 				end.finish
 			end
 			
-			def test_headers(env)
+			def test_headers_response(env)
 				headers = JSON.parse(env['rack.input'].read)
 				
 				Rack::Response.new.tap do |response|
@@ -60,6 +60,12 @@ module Rack
 						end
 					end
 				end.finish
+			end
+			
+			def test_headers_request(env)
+				headers = env.select{|key, value| key.start_with?('HTTP_')}
+				
+				[200, {}, [JSON.generate(headers)]]
 			end
 			
 			def test_streaming_hijack(env)
