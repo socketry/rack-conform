@@ -5,8 +5,8 @@
 
 def initialize(...)
 	super
-	require 'sus'
-	require 'rack/conform/server'
+	require "sus"
+	require "rack/conform/server"
 end
 
 def server

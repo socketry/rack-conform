@@ -2,13 +2,14 @@
 
 # Released under the MIT License.
 # Copyright, 2022-2024, by Samuel Williams.
+# Copyright, 2024, by Earlopain.
 
-require 'json'
-require 'async/websocket/adapters/rack'
+require "json"
+require "async/websocket/adapters/rack"
 
-require 'rack/response'
+require "rack/response"
 
-require_relative 'middleware/body_itself'
+require_relative "middleware/body_itself"
 
 module Rack
 	module Conform
@@ -22,7 +23,7 @@ module Rack
 			end
 			
 			def test_status(env)
-				status = env.fetch('HTTP_STATUS', 200)
+				status = env.fetch("HTTP_STATUS", 200)
 				[status.to_i, {}, []]
 			end
 			
@@ -37,11 +38,11 @@ module Rack
 			end
 			
 			def test_echo(env)
-				[200, {}, EchoWrapper.new(env['rack.input'])]
+				[200, {}, EchoWrapper.new(env["rack.input"])]
 			end
 			
 			def test_cookies(env)
-				cookies = JSON.parse(env['rack.input'].read)
+				cookies = JSON.parse(env["rack.input"].read)
 				
 				Rack::Response.new.tap do |response|
 					cookies.each do |key, value|
@@ -51,7 +52,7 @@ module Rack
 			end
 			
 			def test_headers(env)
-				headers = JSON.parse(env['rack.input'].read)
+				headers = JSON.parse(env["rack.input"].read)
 				
 				Rack::Response.new.tap do |response|
 					headers.each do |key, value|
@@ -63,13 +64,13 @@ module Rack
 			end
 			
 			def test_streaming_hijack(env)
-				if env['rack.hijack?']
+				if env["rack.hijack?"]
 					callback = proc do |stream|
 						stream.write "Hello World"
 						stream.close
 					end
 					
-					return [200, {'rack.hijack' => callback}, nil]
+					return [200, {"rack.hijack" => callback}, nil]
 				else
 					[404, {}, []]
 				end
@@ -106,7 +107,7 @@ module Rack
 					connection.close
 				end or Protocol::HTTP::Response[404, {}, []]
 			end
-
+			
 			def test_middleware_body_itself(env)
 				Middleware::BodyItself.new(self).call(env)
 			end
@@ -114,10 +115,10 @@ module Rack
 			private
 			
 			def test_method_for(env)
-				parts = env['PATH_INFO'].split('/')
+				parts = env["PATH_INFO"].split("/")
 				parts[0] = "test"
 				
-				return parts.join('_').to_sym
+				return parts.join("_").to_sym
 			end
 		end
 	end

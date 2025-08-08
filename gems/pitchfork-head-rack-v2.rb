@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2024, by Samuel Williams.
 
-eval_gemfile '../gems.rb'
+eval_gemfile "../gems.rb"
 
 gem "pitchfork", git: "https://github.com/Shopify/pitchfork.git"
 gem "rack", "~> 2.0"

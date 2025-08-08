@@ -13,6 +13,11 @@ group :maintenance, optional: true do
 end
 
 group :test do
+	gem "decode"
+	
+	gem "rubocop"
+	gem "rubocop-socketry"
+	
 	gem "bake-test"
 	gem "bake-test-external"
 end

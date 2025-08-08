@@ -3,10 +3,10 @@
 # Released under the MIT License.
 # Copyright, 2022, by Samuel Williams.
 
-require 'client_context'
+require "client_context"
 include ClientContext
 
-it 'can stream a response' do
+it "can stream a response" do
 	response = client.get("/streaming/hijack")
 	
 	if response.status == 200

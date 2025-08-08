@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2022-2024, by Samuel Williams.
 
-require 'rack/conform/server'
+require "rack/conform/server"
 
 def before_tests(assertions)
 	@server = Rack::Conform::Server.current

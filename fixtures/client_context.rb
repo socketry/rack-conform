@@ -3,15 +3,15 @@
 # Released under the MIT License.
 # Copyright, 2022, by Samuel Williams.
 
-require 'async/http/client'
-require 'async/http/endpoint'
-require 'sus/fixtures/async/reactor_context'
+require "async/http/client"
+require "async/http/endpoint"
+require "sus/fixtures/async/reactor_context"
 
 module ClientContext
 	include Sus::Fixtures::Async::ReactorContext
 	
 	def url
-		ENV['RACK_CONFORM_ENDPOINT']
+		ENV["RACK_CONFORM_ENDPOINT"]
 	end
 	
 	def endpoint

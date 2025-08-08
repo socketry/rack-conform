@@ -3,7 +3,7 @@
 # Released under the MIT License.
 # Copyright, 2022, by Samuel Williams.
 
-require 'client_context'
+require "client_context"
 include ClientContext
 
 it "can echo back request body" do

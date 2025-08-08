@@ -3,12 +3,12 @@
 # Released under the MIT License.
 # Copyright, 2024, by Samuel Williams.
 
-require 'client_context'
+require "client_context"
 include ClientContext
 
-require 'rack'
+require "rack"
 
-it 'can stream an enumerator repsonse body' do
+it "can stream an enumerator repsonse body" do
 	response = client.get("/streaming/enumerator")
 	
 	expect(response.status).to be == 200

@@ -3,16 +3,16 @@
 # Released under the MIT License.
 # Copyright, 2023-2024, by Samuel Williams.
 
-require 'client_context'
+require "client_context"
 include ClientContext
 
-require 'async/websocket/client'
+require "async/websocket/client"
 let(:websocket_client) {Async::WebSocket::Client.open(endpoint)}
 
-require 'rack'
+require "rack"
 
 if Rack::RELEASE > "3.0"
-	it 'can establish a websocket connection' do
+	it "can establish a websocket connection" do
 		connection = websocket_client.connect(endpoint.authority, "/websocket/echo")
 		
 		begin

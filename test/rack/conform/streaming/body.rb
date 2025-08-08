@@ -3,13 +3,13 @@
 # Released under the MIT License.
 # Copyright, 2022, by Samuel Williams.
 
-require 'client_context'
+require "client_context"
 include ClientContext
 
-require 'rack'
+require "rack"
 
 if Rack::RELEASE > "3.0"
-	it 'can stream a response' do
+	it "can stream a response" do
 		response = client.get("/streaming/body")
 		
 		expect(response.status).to be == 200
