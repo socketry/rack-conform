@@ -43,6 +43,14 @@ module Rack
 				[200, {}, EchoWrapper.new(env["rack.input"])]
 			end
 			
+			def test_env(env)
+				query = Rack::Utils.parse_nested_query(env["QUERY_STRING"])
+				key = query["key"]
+				value = env[key]
+				
+				[200, {}, [JSON.dump(value)]]
+			end
+			
 			def test_cookies(env)
 				cookies = JSON.parse(env["rack.input"].read)
 				
