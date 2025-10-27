@@ -11,6 +11,8 @@ require "rack/response"
 
 require_relative "middleware/body_itself"
 
+require "rack/response"
+
 module Rack
 	module Conform
 		class Application
