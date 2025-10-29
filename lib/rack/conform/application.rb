@@ -107,7 +107,7 @@ module Rack
 						connection.write(message)
 					end
 					connection.close
-				end or Protocol::HTTP::Response[404, {}, []]
+				end or [404, {}, []]
 			end
 			
 			def test_middleware_body_itself(env)
