@@ -124,10 +124,11 @@ module Rack
 			private
 			
 			def test_method_for(env)
+				request_method = env["REQUEST_METHOD"]
 				path_info = env["PATH_INFO"]
 				
 				# Special case for OPTIONS * request:
-				if path_info == "*"
+				if request_method == "OPTIONS"
 					return :test_options_star
 				end
 				
