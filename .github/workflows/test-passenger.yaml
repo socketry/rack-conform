@@ -41,7 +41,12 @@ jobs:
       timeout-minutes: 10
       run: bundle exec bake test
     
+    - name: Dump server log
+      if: failure()
+      run: cat server.log
+    
     - name: Run benchmarks
+      timeout-minutes: 10
       run: |
         bundle exec ${{matrix.server}} &
         bundle exec benchmark-http wait ${{matrix.endpoint}}
