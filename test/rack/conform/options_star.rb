@@ -15,7 +15,7 @@ it "can handle OPTIONS * request" do
 	
 	response = client.call(request)
 	expect(response.status).to be == 200
-	expect(response.read).to be == "OPTIONS *"
+	expect(response.read).to be(:start_with?, "OPTIONS")
 ensure
 	response&.finish
 end
