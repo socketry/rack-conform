@@ -13,3 +13,5 @@ gem "logger"
 
 # export RACK_CONFORM_SERVER="passenger start"
 # export RACK_CONFORM_ENDPOINT="http://127.0.0.1:3000"
+
+::RACK_CONFORM_BROKEN = [:options_star]

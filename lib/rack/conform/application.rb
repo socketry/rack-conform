@@ -114,7 +114,7 @@ module Rack
 				Middleware::BodyItself.new(self).call(env)
 			end
 			
-			def test_options_star(env)
+			def test_options(env)
 				request_method = env["REQUEST_METHOD"]
 				path_info = env["PATH_INFO"]
 				
@@ -129,7 +129,7 @@ module Rack
 				
 				# Special case for OPTIONS * request:
 				if request_method == "OPTIONS"
-					return :test_options_star
+					return :test_options
 				end
 				
 				parts = path_info.split("/")
