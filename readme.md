@@ -8,11 +8,7 @@ Provides rack server conformance testing.
 
 Rack has pretty decent support for validating applications do the right thing using `Rack::Lint`. But nothing is really testing that servers behave correctly given a certain response from an application. That's what this test suite is for: to check that servers do the "correct" thing given a specific response from an application.
 
-## Features
-
-  - Supports Rack 2 and Rack 3.
-
-### Servers Tested
+## Servers Tested
 
 | Server    | Rack 2 | Rack 3 | Broken Features         |
 |-----------|:------:|:------:|-------------------------|
