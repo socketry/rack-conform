@@ -8,14 +8,14 @@ include ClientContext
 
 require "protocol/http/request"
 
-it "can handle OPTIONS * request" do
+it "can handle OPTIONS / request" do
 	request = Protocol::HTTP::Request.new(
-		endpoint.scheme, endpoint.authority, "OPTIONS", "*", nil, Protocol::HTTP::Headers.new, nil
+		endpoint.scheme, endpoint.authority, "OPTIONS", "/", nil, Protocol::HTTP::Headers.new, nil
 	)
 	
 	response = client.call(request)
 	expect(response.status).to be == 200
-	expect(response.read).to be(:start_with?, "OPTIONS")
+	expect(response.read).to be == "OPTIONS /"
 ensure
 	response&.finish
 end
