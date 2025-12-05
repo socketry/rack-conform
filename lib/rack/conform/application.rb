@@ -114,10 +114,25 @@ module Rack
 				Middleware::BodyItself.new(self).call(env)
 			end
 			
+			def test_options_star(env)
+				request_method = env["REQUEST_METHOD"]
+				path_info = env["PATH_INFO"]
+				
+				[200, {"allow" => "GET, POST, PUT, PATCH, DELETE, OPTIONS"}, ["#{request_method} #{path_info}"]]
+			end
+			
 			private
 			
 			def test_method_for(env)
-				parts = env["PATH_INFO"].split("/")
+				request_method = env["REQUEST_METHOD"]
+				path_info = env["PATH_INFO"]
+				
+				# Special case for OPTIONS * request:
+				if request_method == "OPTIONS"
+					return :test_options_star
+				end
+				
+				parts = path_info.split("/")
 				parts[0] = "test"
 				
 				return parts.join("_").to_sym
