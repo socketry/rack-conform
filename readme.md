@@ -14,11 +14,15 @@ Rack has pretty decent support for validating applications do the right thing us
 
 ### Servers Tested
 
-  - Falcon (Rack 2 & 3)
-  - Puma (Rack 2)
-  - Passenger (Rack 2)
-  - Unicorn (Rack 2)
-  - Thin (Rack 2)
+| Server    | Rack 2 | Rack 3 | Broken Features         |
+|-----------|:------:|:------:|-------------------------|
+| Falcon    | ✓      | ✓      |                         |
+| Pitchfork | ✓      |        |                         |
+| Passenger | ✓      |        | `options_star`          |
+| Puma      | ✓      | ✓      |                         |
+| Thin      | ✓      |        |                         |
+| Unicorn   | ✓      |        |                         |
+| Webrick   | ✓      | ✓      | `options_star` (Rack 2) |
 
 ## Usage
 
@@ -63,6 +67,17 @@ export BUNDLE_GEMFILE="gems/webrick-rack-v3.rb"
 bundle install
 export RACK_CONFORM_SERVER="rackup -s webrick"
 export RACK_CONFORM_ENDPOINT="http://localhost:9292"
+bundle exec sus
+```
+
+### Passenger
+
+``` bash
+export BUNDLE_GEMFILE="gems/passenger-v6-rack-v2.rb"
+bundle install
+passenger start # Install passenger and then exit.
+export RACK_CONFORM_SERVER="passenger start"
+export RACK_CONFORM_ENDPOINT="http://127.0.0.1:3000"
 bundle exec sus
 ```
 
